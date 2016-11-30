@@ -1,0 +1,13 @@
+void timer_call();
+void sense_smoke(int min_threshold, int max_threshold);
+void glow_led(void);
+void led_off(void);
+void buzzer_on(void);
+void buzzer_off(void);
+void water_sprinkle(void);
+void turnoff_motor(void);
+void send_sms(void);
+void motor_init(void);
+void motor_start(void);
+void motor_rotate(int t1, int t2);
+void motor_stop(void);

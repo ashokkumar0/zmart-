@@ -1,0 +1,27 @@
+#include<stdlib.h>
+#include<board.h>
+#include<serial.h>
+#include<delay.h>
+
+void on_serial()
+{
+	serial_puts("AT\r");
+	mdelay(50);
+      	serial_puts("AT+CMGF=1\r");
+	mdelay(50);
+	serial_puts("AT+CMGS=\"9597990320\"\r");
+	mdelay(50);
+	serial_puts("Save the life of people\r");
+	mdelay(50);
+	serial_putc(0x1A);
+}
+int main()
+{
+       	board_init();
+	serial_init();
+	delay_init();
+
+	on_serial();
+	       
+	return 0;
+}
