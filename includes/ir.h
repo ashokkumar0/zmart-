@@ -32,5 +32,4 @@ void get_remote_key(void);
  * Compare the value from the queue and the array values.
  * If it matches return the key value.
  */
-
-unsigned char check_key(char diff);
+char check_key(char diff);

@@ -1,5 +1,3 @@
-#define MASK 1
-
 /**
  *
  * Checks for the last bit in the register

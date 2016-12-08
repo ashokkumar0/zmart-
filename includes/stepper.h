@@ -1,4 +1,4 @@
-#include <stdint.h>
+
 #ifndef STEPPER_H
 #define STEPPER_H
 
@@ -8,6 +8,6 @@
 
 void door_open(void);
 void door_close(void);
-void stepper_turn(uint8_t *);
+void stepper_turn(int *);
 
 #endif

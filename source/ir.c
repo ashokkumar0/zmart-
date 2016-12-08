@@ -1,30 +1,22 @@
-#include <board.h>
-#include <lcd.h>
 #include <stdbool.h>
-#include <stdio.h>
 #include <irq.h>
 #include <fifo.h>
 #include <timer32.h>
-
+#include <ir.h>
 
 static uint16_t key;
 static fifo_t fifo_key;
 static uint8_t fifo_buf[20];
 
-
-volatile uint32_t * dir = (uint32_t *) 0x50018000;
-volatile uint32_t * data = (uint32_t *) 0x50013ffc;
-volatile uint32_t * config = (uint32_t *) 0x40044078;
-volatile uint32_t * gpio_ie = (uint32_t *) GPIO1_IE;
-volatile uint32_t * gpio_ic = (uint32_t *) GPIO1_IC;
-
-
 void get_remote_key(void)
 {
+	volatile uint32_t * gpio_ie = (uint32_t *) GPIO1_IE;
+	volatile uint32_t * gpio_ic = (uint32_t *) GPIO1_IC;
+	volatile uint32_t * data = (uint32_t *) 0x50013ffc;
+
 	int i;
 	bool laststate = 1;
 	uint8_t keys_val[8] = {83, 23, 87, 84, 20, 46, 4, 68};
-
 	
 	key = 0;
 	*gpio_ie = 0;
@@ -50,7 +42,6 @@ void get_remote_key(void)
 		
 	}
 	if (key > 0) {
-		//printf ("%u\n", (key >> 5));
 		for (i = 0 ; i < 8 ; i++)
 			if (keys_val[i] == (key >> 5)) {
 				fifo_add(&fifo_key, (key >> 5));
@@ -66,6 +57,11 @@ void get_remote_key(void)
 
 void remote_init(void)
 {
+	volatile uint32_t * gpio_ie = (uint32_t *) GPIO1_IE;
+	volatile uint32_t * dir = (uint32_t *) 0x50018000;
+	volatile uint32_t * data = (uint32_t *) 0x50013ffc;
+	volatile uint32_t * config = (uint32_t *) 0x40044078;
+ 
 	timer32_init();
 	fifo_init(&fifo_key, fifo_buf, 20);
 	*config = (*config | 0x8);
@@ -79,7 +75,7 @@ void remote_init(void)
 }
 
 
-unsigned char check_key(char diff)
+char check_key(char diff)
 {
 	int flag;
 	unsigned char ret = 0;
@@ -107,6 +103,5 @@ unsigned char check_key(char diff)
 		}
 		break;
 	}
-	return 99;
-					
+	return -1;					
 }

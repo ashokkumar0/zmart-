@@ -1,10 +1,9 @@
-#include <board.h>
 #include <pir.h>
-#define PORT0_BASE 0x50000000
+#include <stdint.h>
 #define PORT2_BASE 0x50020000
-#define PORT3_BASE 0x50030000
 #define DIR 0x8000
 #define DATA 0x3FFC
+#define MASK 1
 
 int sense_pir(void)
 {

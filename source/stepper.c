@@ -1,10 +1,11 @@
 #include <stepper.h>
-#include <stdint.h>
-#include <board.h>
 #include <delay.h>
 #include <gpio.h>
 
-void stepper_turn(uint8_t *turn)
+static int forward_dir[STEP] = { 8, 9, 1, 5, 4, 6, 2, 10};
+static int reverse_dir[STEP] = { 2, 6, 4, 5, 1, 9, 8, 10};
+
+void stepper_turn(int *turn)
 {
 	int mask = 0x01;
 	int count;
@@ -26,12 +27,10 @@ void stepper_turn(uint8_t *turn)
 
 void door_open(void)
 {
-	uint8_t forward_dir[STEP] = { 8, 9, 1, 5, 4, 6, 2, 10};
 	stepper_turn(forward_dir);
 }
 
 void door_close(void)
 {
-	uint8_t reverse_dir[STEP] = { 2, 6, 4, 5, 1, 9, 8, 10};
 	stepper_turn(reverse_dir);
 }
